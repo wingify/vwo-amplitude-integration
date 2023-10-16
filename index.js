@@ -32,8 +32,13 @@ function VWOAmplitudePlugin(amplitude){
                 if (amplitude) {
                     let identify = new amplitude.Identify();
                     identify.set(key, _vis_data[key]);
-                    amplitude.getInstance().identify(identify);
-                    amplitude.getInstance().logEvent("VWO", _vis_data);
+                    if (amplitude.getInstance) {
+                        amplitude.getInstance().identify(identify);
+                        amplitude.getInstance().logEvent("VWO", _vis_data);
+                    } else {
+                        amplitude.identify(identify);
+                        amplitude.logEvent("VWO", _vis_data);
+                    }
                 } else {
                     console.warn("VWO Amplitude Plugin Log - amplitude is not defined")
                 }
