@@ -1,6 +1,6 @@
 # VWO Amplitude integration plugin
 
-This plugin allows to send VWO data to Amplitude using amplitude-js.
+This plugin allows to send VWO data to Amplitude using `amplitude-js` or `@amplitude/analytics-browser`.
 
 ## Package Installation
 
@@ -16,24 +16,32 @@ yarn add vwo-amplitude-integration
 
 ## Usage
 
-Initialize  VWOAmplitudePlugin with your amplitude Instance:
+This plugin works with Amplitude's `amplitude-js` and `@amplitude/analytics-browser` libraries.
+
+Initialize VWOAmplitudePlugin with your amplitude Instance:
 
 **In your App.js file**
 ```js
 import amplitude from "amplitude-js";
-import { VWOAmplitudePlugin } from 'vwo-amplitude-integration';
+import VWOAmplitudePlugin from 'vwo-amplitude-integration';
 amplitude.getInstance().init(API_KEY, null, {
-// optional configuration options
-    includeUtm: true,
-    includeGclid: true,
-    includeReferrer: true,
+    // optional configuration options
 });
 
 VWOAmplitudePlugin(amplitude); 
-
 ```
+For more details around `amplitude-js` plugin, refer to this [document](https://www.npmjs.com/package/amplitude-js)
 
-For more details around Amplitude js plugin, refer to this [document](https://www.npmjs.com/package/amplitude-js)
+```js
+import amplitude from "@amplitude/analytics-browser";
+import VWOAmplitudePlugin from 'vwo-amplitude-integration';
+amplitude.init(API_KEY, null, {
+    // optional configuration options
+});
+
+VWOAmplitudePlugin(amplitude); 
+```
+For more details around `@amplitude/analytics-browser` plugin, refer to this [document](https://www.npmjs.com/package/@amplitude/analytics-browser)
 
 ## Code of Conduct
 
