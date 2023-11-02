@@ -43,6 +43,8 @@ VWOAmplitudePlugin(amplitude);
 ```
 For more details around `@amplitude/analytics-browser` plugin, refer to this [document](https://www.npmjs.com/package/@amplitude/analytics-browser)
 
+Ensure that the code is rendered and executed exclusively on the client side, as this plugin is designed for client-side functionality only.
+
 ## Code of Conduct
 
 [Code of Conduct](https://github.com/wingify/vwo-amplitude-integration/blob/master/CODE_OF_CONDUCT.md)
