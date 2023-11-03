@@ -47,4 +47,4 @@ function VWOAmplitudePlugin(amplitude){
     ])
 }
 
-export default VWOAmplitudePlugin
+module.exports = VWOAmplitudePlugin
