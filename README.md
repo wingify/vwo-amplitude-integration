@@ -45,6 +45,16 @@ For more details around `@amplitude/analytics-browser` plugin, refer to this [do
 
 Ensure that the code is rendered and executed exclusively on the client side, as this plugin is designed for client-side functionality only.
 
+**Options**
+
+The VWOAmplitudePlugin function accepts an optional second parameter with the following options:
+
+- `useSimpleKey` (boolean, default: false): When set to true, uses a simplified key name of "VWO-Test-ID" instead of "VWO-Test-ID-{expId}".
+
+```js
+VWOAmplitudePlugin(amplitude, { useSimpleKey: true });
+```
+
 ## Code of Conduct
 
 [Code of Conduct](https://github.com/wingify/vwo-amplitude-integration/blob/master/CODE_OF_CONDUCT.md)

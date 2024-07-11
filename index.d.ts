@@ -1,3 +1,7 @@
 declare module "vwo-amplitude-integration" {
-  export default function VWOAmplitudePlugin(amplitude: {[k: string]: any}): void;
+  interface VWOAmplitudePluginOptions {
+    useSimpleKey?: boolean;
+  }
+
+  export default function VWOAmplitudePlugin(amplitude: {[k: string]: any}, options?: VWOAmplitudePluginOptions): void;
 }

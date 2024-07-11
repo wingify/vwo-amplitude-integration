@@ -13,7 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-function VWOAmplitudePlugin(amplitude){
+function VWOAmplitudePlugin(amplitude, options = {}) {
+    const { useSimpleKey = false } = options;
+
     window.VWO = window.VWO || []
     window.VWO.push([
         "onVariationApplied",
@@ -27,8 +29,9 @@ function VWOAmplitudePlugin(amplitude){
                 variationId &&
                 ["VISUAL_AB", "VISUAL", "SPLIT_URL"].indexOf(window._vwo_exp[expId].type) > -1
             ) {
-                _vis_data["VWO-Test-ID-" + expId] = window._vwo_exp[expId].comb_n[variationId];
-                const key = "VWO-Test-ID-" + expId;
+                const key = useSimpleKey ? "VWO-Test-ID" : "VWO-Test-ID-" + expId;
+                _vis_data[key] = window._vwo_exp[expId].comb_n[variationId];
+
                 if (amplitude) {
                     let identify = new amplitude.Identify();
                     identify.set(key, _vis_data[key]);
