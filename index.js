@@ -58,13 +58,9 @@ function VWOAmplitudePlugin(amplitude, options = {}) {
           identify.set(testKeyId, _vis_data[testKeyId]);
           identify.set(variationKeyId, _vis_data[variationKeyId]);
         }
-        if (amplitude.getInstance) {
-          amplitude.getInstance().identify(identify);
-          amplitude.getInstance().logEvent("VWO", _vis_data);
-        } else {
-          amplitude.identify(identify);
-          amplitude.logEvent("VWO", _vis_data);
-        }
+        const amplitudeInstance = amplitude.getInstance?.() || amplitude;
+        amplitudeInstance.identify(identify);
+        amplitudeInstance.logEvent("VWO", _vis_data);
       }
     },
   ]);
