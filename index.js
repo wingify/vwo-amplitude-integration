@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 function VWOAmplitudePlugin(amplitude, options = {}) {
-    const { useSimpleKey = false } = options;
+    const { useLegacyKeys = true } = options;
 
     window.VWO = window.VWO || []
     window.VWO.push([
@@ -29,19 +29,32 @@ function VWOAmplitudePlugin(amplitude, options = {}) {
                 variationId &&
                 ["VISUAL_AB", "VISUAL", "SPLIT_URL"].indexOf(window._vwo_exp[expId].type) > -1
             ) {
-                const key = useSimpleKey ? "VWO-Test-ID" : "VWO-Test-ID-" + expId;
-                _vis_data[key] = window._vwo_exp[expId].comb_n[variationId];
+                let key, testKeyId, variationKeyId;
+                if (useLegacyKeys) {
+                    key = "VWO-Test-ID-" + expId;
+                    _vis_data[key] = window._vwo_exp[expId].comb_n[variationId];
+                } else {
+                    testKeyId = "VWO-Test-ID";
+                    variationKeyId = "VWO-Variation-ID";
+                    _vis_data[testKeyId] = expId;
+                    _vis_data[variationKeyId] = variationId;
+                }
 
                 if (amplitude) {
-                    let identify = new amplitude.Identify();
-                    identify.set(key, _vis_data[key]);
-                    if (amplitude.getInstance) {
-                        amplitude.getInstance().identify(identify);
-                        amplitude.getInstance().logEvent("VWO", _vis_data);
-                    } else {
-                        amplitude.identify(identify);
-                        amplitude.logEvent("VWO", _vis_data);
-                    }
+                  let identify = new amplitude.Identify();
+                  if (useLegacyKeys) {
+                      identify.set(key, _vis_data[key]);
+                  } else {
+                      identify.set(testKeyId, _vis_data[testKeyId]);
+                      identify.set(variationKeyId, _vis_data[variationKeyId]);
+                  }
+                  if (amplitude.getInstance) {
+                      amplitude.getInstance().identify(identify);
+                      amplitude.getInstance().logEvent("VWO", _vis_data);
+                  } else {
+                      amplitude.identify(identify);
+                      amplitude.logEvent("VWO", _vis_data);
+                  }
                 } else {
                     console.warn("VWO Amplitude Plugin Log - amplitude is not defined")
                 }

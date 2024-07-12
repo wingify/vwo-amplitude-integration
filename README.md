@@ -49,7 +49,7 @@ Ensure that the code is rendered and executed exclusively on the client side, as
 
 The VWOAmplitudePlugin function accepts an optional second parameter with the following options:
 
-- `useSimpleKey` (boolean, default: false): When set to true, uses a simplified key name of "VWO-Test-ID" instead of "VWO-Test-ID-{expId}".
+- `useLegacyKeys` (boolean, default: true): When set to false, uses separates user properties for Test and Variatn IDs into `VWO-Test-ID` and `VWO-Variant-ID` with the values being the test and variant IDs respectively.  If true, it will continue to use the key name as `VWO-Test-ID-{expId}` with value being the variant ID.
 
 ```js
 VWOAmplitudePlugin(amplitude, { useSimpleKey: true });
