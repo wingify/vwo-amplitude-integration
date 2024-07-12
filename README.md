@@ -49,10 +49,10 @@ Ensure that the code is rendered and executed exclusively on the client side, as
 
 The VWOAmplitudePlugin function accepts an optional second parameter with the following options:
 
-- `useLegacyKeys` (boolean, default: true): When set to false, uses separates user properties for Test and Variatn IDs into `VWO-Test-ID` and `VWO-Variant-ID` with the values being the test and variant IDs respectively.  If true, it will continue to use the key name as `VWO-Test-ID-{expId}` with value being the variant ID.
+- `useLegacyKeys` (boolean, default: true): When set to false, uses separates user properties for Test and Variant IDs into `VWO-Test-ID` and `VWO-Variant-ID` with the values being the test and variant IDs respectively.  If true, it will continue to use the legacy single key name as `VWO-Test-ID-{expId}` with value being the variant ID.
 
 ```js
-VWOAmplitudePlugin(amplitude, { useSimpleKey: true });
+VWOAmplitudePlugin(amplitude, { useLegacyKeys: false });
 ```
 
 ## Code of Conduct
