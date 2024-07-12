@@ -14,53 +14,60 @@
  * limitations under the License.
  */
 function VWOAmplitudePlugin(amplitude, options = {}) {
-    const { useLegacyKeys = true } = options;
+  const { useLegacyKeys = true } = options;
 
-    window.VWO = window.VWO || []
-    window.VWO.push([
-        "onVariationApplied",
-        function (data) {
-            if (!data) return;
-            const expId = data[1];
-            const variationId = data[2];
-            const _vis_data = {};
-            if (
-                expId &&
-                variationId &&
-                ["VISUAL_AB", "VISUAL", "SPLIT_URL"].indexOf(window._vwo_exp[expId].type) > -1
-            ) {
-                let key, testKeyId, variationKeyId;
-                if (useLegacyKeys) {
-                    key = "VWO-Test-ID-" + expId;
-                    _vis_data[key] = window._vwo_exp[expId].comb_n[variationId];
-                } else {
-                    testKeyId = "VWO-Test-ID";
-                    variationKeyId = "VWO-Variation-ID";
-                    _vis_data[testKeyId] = expId;
-                    _vis_data[variationKeyId] = window._vwo_exp[expId].comb_n[variationId];
-                }
+  window.VWO = window.VWO || [];
+  window.VWO.push([
+    "onVariationApplied",
+    function (data) {
+      if (!data || !amplitude) {
+        if (!amplitude) {
+          console.warn("VWO Amplitude Plugin Log - amplitude is not defined");
+        }
+        return;
+      }
 
-                if (amplitude) {
-                  let identify = new amplitude.Identify();
-                  if (useLegacyKeys) {
-                      identify.set(key, _vis_data[key]);
-                  } else {
-                      identify.set(testKeyId, _vis_data[testKeyId]);
-                      identify.set(variationKeyId, _vis_data[variationKeyId]);
-                  }
-                  if (amplitude.getInstance) {
-                      amplitude.getInstance().identify(identify);
-                      amplitude.getInstance().logEvent("VWO", _vis_data);
-                  } else {
-                      amplitude.identify(identify);
-                      amplitude.logEvent("VWO", _vis_data);
-                  }
-                } else {
-                    console.warn("VWO Amplitude Plugin Log - amplitude is not defined")
-                }
-            }
-        },
-    ])
+      const expId = data[1];
+      const variationId = data[2];
+      const _vis_data = {};
+      if (
+        expId &&
+        variationId &&
+        window._vwo_exp &&
+        window._vwo_exp[expId] &&
+        ["VISUAL_AB", "VISUAL", "SPLIT_URL"].indexOf(
+          window._vwo_exp[expId].type
+        ) > -1
+      ) {
+        let key = "VWO-Test-ID-";
+        const testKeyId = "VWO-Test-ID";
+        const variationKeyId = "VWO-Variation-ID";
+        if (useLegacyKeys) {
+          key += expId;
+          _vis_data[key] = window._vwo_exp[expId].comb_n[variationId];
+        } else {
+          _vis_data[testKeyId] = expId;
+          _vis_data[variationKeyId] =
+            window._vwo_exp[expId].comb_n[variationId];
+        }
+
+        const identify = new amplitude.Identify();
+        if (useLegacyKeys) {
+          identify.set(key, _vis_data[key]);
+        } else {
+          identify.set(testKeyId, _vis_data[testKeyId]);
+          identify.set(variationKeyId, _vis_data[variationKeyId]);
+        }
+        if (amplitude.getInstance) {
+          amplitude.getInstance().identify(identify);
+          amplitude.getInstance().logEvent("VWO", _vis_data);
+        } else {
+          amplitude.identify(identify);
+          amplitude.logEvent("VWO", _vis_data);
+        }
+      }
+    },
+  ]);
 }
 
 module.exports = VWOAmplitudePlugin
