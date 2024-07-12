@@ -37,7 +37,7 @@ function VWOAmplitudePlugin(amplitude, options = {}) {
                     testKeyId = "VWO-Test-ID";
                     variationKeyId = "VWO-Variation-ID";
                     _vis_data[testKeyId] = expId;
-                    _vis_data[variationKeyId] = variationId;
+                    _vis_data[variationKeyId] = window._vwo_exp[expId].comb_n[variationId];
                 }
 
                 if (amplitude) {
